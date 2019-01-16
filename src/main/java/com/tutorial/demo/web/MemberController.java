@@ -5,12 +5,13 @@ import com.tutorial.demo.model.MemberAccount;
 import com.tutorial.demo.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
-@RestController
+@Controller
 @RequestMapping("/member")
 public class MemberController {
 
@@ -31,5 +32,10 @@ public class MemberController {
         memberAccount.setCreateTime(LocalDateTime.now());
         memberService.addMember(memberAccount);
         return "新增會員成功!!";
+    }
+
+    @GetMapping("/add-member")
+    public String addMember() {
+        return "add-member";
     }
 }
