@@ -30,6 +30,6 @@ public class MemberController {
         memberAccount.setAddress("台北市");
         memberAccount.setCreateTime(LocalDateTime.now());
         memberService.addMember(memberAccount);
-        return "新增會員成功!";
+        return "新增會員成功!!";
     }
 }
