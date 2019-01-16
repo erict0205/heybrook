@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>登入頁面</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" href="../vendor/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet"/>
+
+    <!-- MetisMenu CSS -->
+    <link th:href="@{/vendor/metisMenu/metisMenu.min.css}" href="../vendor/metisMenu/metisMenu.min.css"
+          rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/sb-admin-2.css}" href="../dist/css/sb-admin-2.css" rel="stylesheet"/>
+
+    <!-- Custom Fonts -->
+    <link th:href="@{/vendor/font-awesome/css/font-awesome.min.css}"
+          href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script>
+
+        $(function () {
+            $("#btnSubmit").click(function (event) {
+
+                //ajax提交的話她會一直重新run程式直到回傳,你可以將此行註解使用開發者工具看一下console就知道了
+                event.preventDefault();
+
+                uploadFile();
+
+            });
+
+            uploadFile = function () {
+
+                // 取得form
+                var form = $('#UploadForm')[0]; //取得HTML中第一個form id為UploadForm
+
+                var data = new FormData(form); //將form內的所有訊息打包成FormData object
+
+
+                $("#btnSubmit").prop("disabled", true);
+
+                $.ajax({
+                    type: "POST",               //使用POST傳輸,檔案上傳只能用POST
+                    enctype: 'multipart/form-data', //將資料加密傳輸 檔案上傳一定要有的屬性
+                    url: "/api/upload/multi", //要傳輸對應的接口
+                    data: data,         //要傳輸的資料,我們將form 內upload打包成data
+                    processData: false, //防止jquery將data變成query String
+                    contentType: false,
+                    cache: false,  //不做快取
+                    async: false, //設為同步
+                    timeout: 1000000, //設定傳輸的timeout,時間內沒完成則中斷
+                    success: function (data) {
+
+                        $("#result").text(data);//填入提示訊息到result標籤內
+                        console.log("SUCCESS : ", data);
+                        $("#btnSubmit").prop("disabled", false);
+
+                    },
+                    error: function (e) {
+
+                        $("#result").text(e.responseText); //填入提示訊息到result標籤內
+                        console.log("ERROR : ", e);
+                        $("#btnSubmit").prop("disabled", false);
+
+                    }
+                })
+            }
+        })
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">請輸入登入信箱及密碼</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="POST" enctype="multipart/form-data" id="UploadForm">
+                        <input type="file" name="files"/><br/>
+                        <button type="submit" value="Submit" id="btnSubmit"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/vendor/jquery/jquery.min.js}" src="../vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}" src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script th:src="@{/vendor/metisMenu/metisMenu.min.js}" src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script th:src="@{/dist/js/sb-admin-2.js}" src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+<script type="text/javascript">
+    $(function () {
+        checkLogin = function () {
+
+            $("#loginForm").submit();
+
+        }
+    });
+</script>
+</html>
