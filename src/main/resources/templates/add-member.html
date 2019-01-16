@@ -62,15 +62,18 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <form role="form">
+                                <form role="form" method="post" enctype="multipart/form-data"
+                                      th:action="@{/member/save-member}" th:object="${member}">
                                     <div class="form-group">
                                         <label>註冊信箱</label>
-                                        <input class="form-control" placeholder="信箱長度不可大於40個字"/>
+                                        <input class="form-control" placeholder="信箱長度不可大於40個字" id="email"
+                                               th:field="${member.email}"/>
                                         <p class="help-block">這邊可以放些提示的訊息(驗證錯誤等).</p>
                                     </div>
                                     <div class="form-group">
                                         <label>會員密碼</label>
-                                        <input class="form-control" placeholder="密碼長度限制6個字以上10個字以內"/>
+                                        <input class="form-control" placeholder="密碼長度限制6個字以上10個字以內"
+                                               id="password" th:field="${member.password}"/>
                                     </div>
 
 

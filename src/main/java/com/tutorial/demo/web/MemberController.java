@@ -7,9 +7,8 @@ import com.tutorial.demo.repository.MemberRepository;
 import com.tutorial.demo.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,13 +41,33 @@ public class MemberController {
     }
 
     @GetMapping("/add-member")
-    public String addMember() {
-        List<Member> members = new ArrayList<>();
-        members = memberRepository.findAll();
+    public String addMember(Model model) {
 
-        for (Member member : members) {
-            System.out.println(member.getId());
-        }
+        model.addAttribute(new Member());
         return "add-member";
+    }
+
+    @PostMapping("/save-member")
+    public String saveMember(@ModelAttribute Member member) {
+        memberRepository.save(member);
+        System.err.println("hey! 儲存成功");
+
+        return "login";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+
+        model.addAttribute("member", new Member());
+        return "login";
+    }
+
+    @PostMapping("/do-login")
+    public String doLogin(@ModelAttribute Member member) {
+        List<Member> members = memberRepository.findCheckMemberAccount(member.getEmail(),
+                member.getPassword());
+        System.err.println("hey " + members.get(0).getEmail());
+
+        return "welcome";
     }
 }
