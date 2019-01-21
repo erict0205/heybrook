@@ -70,4 +70,10 @@ public class MemberController {
 
         return "welcome";
     }
+
+    @GetMapping("/upload")
+    public String upload(Model model) {
+
+        return "upload";
+    }
 }
