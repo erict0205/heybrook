@@ -24,4 +24,7 @@ public class Member {
 
     @Column(name = "address_")
     private String address;
+
+    @Column(name = "name_")
+    private String name;
 }

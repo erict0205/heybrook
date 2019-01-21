@@ -76,4 +76,11 @@ public class MemberController {
 
         return "upload";
     }
+
+    @GetMapping("/memberList")
+    public String memberListPage(Model model) {
+        List<Member> memberList = memberRepository.findAll();
+        model.addAttribute("memberList", memberList);
+        return "member-list-page";
+    }
 }
